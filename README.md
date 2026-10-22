@@ -217,7 +217,37 @@ tests/                    server/*.test.ts (node:test via tsx), e2e.mjs, e2e-fea
 - **storytold, the ArtCraft Team and contributors** ([github.com/storytold](https://github.com/storytold)): creators of the open-source engines WordCraft, GridCraft, DeckCraft and PdfCraft.
 - **Claude** (Anthropic): AI fullstack architecture, systems engineering and code pairing.
 
-See [CONTRIBUTORS.md](CONTRIBUTORS.md), and [CONTRIBUTING.md](CONTRIBUTING.md) to join in. Security problems: [SECURITY.md](SECURITY.md).
+See [CONTRIBUTORS.md](CONTRIBUTORS.md) and [CONTRIBUTING.md](CONTRIBUTING.md) to join in. Security problems: [SECURITY.md](SECURITY.md).
+
+---
+
+## Upstream Engine Separation and License Attribution
+
+OpenCraft maintains a strict architectural and organizational separation between the OpenCraft workspace and the embedded crafting engines:
+- **OpenCraft Workspace:** OpenCraft provides the IDE workspace shell, window management, multi-split and picture-in-picture window manager, project file tree, local companion server (Hono on `127.0.0.1`), terminal and Git integrations, project snapshots, and the Model Context Protocol (MCP) orchestration layer that coordinates automated workflows. The OpenCraft IDE codebase is open source under `MIT OR Apache-2.0`.
+- **Embedded Crafting Engines:** WordCraft, GridCraft, DeckCraft, and PdfCraft are independent open-source engines developed by storytold, the ArtCraft team, and contributors ([github.com/storytold](https://github.com/storytold)) under their respective open-source licenses (`MIT OR Apache-2.0`).
+- **Notice Preservation:** All upstream copyright notices, author credits, and license files are maintained intact in every distribution under `versions/v9-10/web/` and `ide/`.
+
+---
+
+## Trademark and Compatibility Disclaimers
+
+- **Independent Community Project:** OpenCraft is an independent project and is **not affiliated with, endorsed by, or sponsored by Adobe Inc., Microsoft Corporation, or their affiliates**.
+- **Ownership of Trademarks:** All product names, logos, and brands (such as Microsoft Word, Microsoft Excel, Microsoft PowerPoint, Adobe Acrobat, Adobe Photoshop, and others) are the property of their respective owners. Their mention in this repository does not imply any affiliation, sponsorship, or endorsement.
+- **Technical File Format Compatibility:** References to standard file formats (`.docx`, `.xlsx`, `.pptx`, `.pdf`) are used **solely for technical compatibility and interoperability descriptions** under nominative fair use.
+- **Upstream & AI Marks:** ArtCraft, WordCraft, GridCraft, DeckCraft, and PdfCraft belong to storytold and the ArtCraft team. Claude, ChatGPT, Gemini, DeepSeek, and Ollama are trademarks of their respective owners.
+
+---
+
+## As-Is Provision, Limitation of Liability, and DMCA Contact
+
+- **As-Is Provision:** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS, CONTRIBUTORS, OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY.
+- **Intellectual Property & Takedown Notices:** Rights holders may submit inquiries or notices of claimed infringement to our designated contact:
+  - **Email:** [visoire@proton.me](mailto:visoire@proton.me)
+  - **Subject:** `[IP Notice] OpenCraft`
+  - See [docs/LEGAL.md](docs/LEGAL.md) for full legal text and takedown procedures.
+
+---
 
 ## License
 

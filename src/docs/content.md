@@ -179,6 +179,8 @@ When you chat with a cloud model (Claude, ChatGPT, Gemini, DeepSeek or a remote 
 
 ## What never leaves
 
+- Local document data, spreadsheet formulas, presentation slides, and PDF content remain strictly on your device and are never sent to external servers by OpenCraft.
+- Optional third-party AI providers (Anthropic, OpenAI, Google, DeepSeek) process only data explicitly submitted by the user through their configured API keys.
 - Your project files, unless they are part of a chat request as above.
 - The search index and embeddings: they are computed by Ollama on this computer.
 - Usage numbers, logs and metrics.
@@ -666,3 +668,15 @@ No. Full-text search works without it. Ollama adds search by meaning.
 ## Does this documentation chat send my question somewhere?
 
 The chat on these pages searches the documentation in your browser. When the OpenCraft backend runs, it asks your default model with the best passages; with a cloud model that question leaves the device like any chat and appears in the audit log. Without the backend it answers with the matching sections only.
+
+## Are OpenCraft, Microsoft, and Adobe related?
+
+No. OpenCraft is an independent project and is not affiliated with, endorsed by, or sponsored by Adobe Inc., Microsoft Corporation, or their affiliates. All product names, logos, and brands (such as Microsoft Word, Excel, PowerPoint, Adobe Acrobat, Photoshop) are the property of their respective owners. References to file formats (`.docx`, `.xlsx`, `.pptx`, `.pdf`) are used solely for technical compatibility descriptions.
+
+## How are OpenCraft and the crafting engines separated?
+
+OpenCraft provides the IDE workspace shell, window management, project tree, local companion server, and Model Context Protocol (MCP) orchestration layer. WordCraft, GridCraft, DeckCraft, and PdfCraft are independent open-source engines developed by storytold and the ArtCraft team ([github.com/storytold](https://github.com/storytold)) under `MIT OR Apache-2.0`. All upstream copyright notices and license references are maintained intact.
+
+## What warranty and liability protections apply?
+
+The OpenCraft IDE, local companion server, and embedded crafting engines are provided "as is", without warranty of any kind, express or implied. For intellectual property notices or DMCA takedown requests, rights holders may email `visoire@proton.me`. Complete terms and disclaimers are set forth in [docs/LEGAL.md](LEGAL.md).

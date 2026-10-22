@@ -54,6 +54,13 @@ per commit.
 By contributing you agree that your contribution is licensed under MIT OR Apache-2.0, like the rest
 of the IDE (see [LICENSE](LICENSE)), without any additional terms.
 
+## Upstream Attribution and Engine Separation
+
+1. **Workspace vs. Crafting Engines:** OpenCraft provides the IDE workspace shell, window management, project tree, local companion server, and MCP orchestration layer. WordCraft, GridCraft, DeckCraft, and PdfCraft are independent open-source engines created by storytold and the ArtCraft team ([github.com/storytold](https://github.com/storytold)) under `MIT OR Apache-2.0`.
+2. **Notice Preservation:** All upstream copyright notices, author credits, and license files in `versions/` and `ide/` must remain completely intact.
+3. **Trademark & Compatibility Disclaimers:** OpenCraft is independent and is not affiliated with Adobe Inc. or Microsoft Corporation. References to `.docx`, `.xlsx`, `.pptx`, and `.pdf` formats are used solely for technical compatibility descriptions.
+4. **As-Is Provision & IP Inquiries:** The IDE is provided "as is" without warranty of any kind. Rights holders may direct intellectual property or takedown inquiries to `visoire@proton.me`. Comprehensive legal notices are available in [docs/LEGAL.md](docs/LEGAL.md).
+
 ## Conduct
 
 Be kind and specific. Critique code, not people. Maintainers may edit or close anything that does not

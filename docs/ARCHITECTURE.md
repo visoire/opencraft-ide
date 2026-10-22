@@ -135,8 +135,17 @@ the `.wasm` file stays byte for byte upstream.
 | DeckCraft | 0.9.0 | `.pptx`, vector morph |
 | PdfCraft | 0.10.1 | `.pdf`: deep zoom, local signing, redaction |
 
+## Upstream engine separation and licensing
+
+OpenCraft maintains a clear architectural and legal boundary between the workspace and the embedded engines:
+- **OpenCraft IDE:** The IDE workspace shell, window manager, project tree, local companion server (Hono on 127.0.0.1), and MCP orchestration layer are developed as open-source software under `MIT OR Apache-2.0`.
+- **Embedded Crafting Engines:** WordCraft, GridCraft, DeckCraft, and PdfCraft are independent open-source engines developed by storytold and the ArtCraft team ([github.com/storytold](https://github.com/storytold)) under `MIT OR Apache-2.0`.
+- **Preservation of Notices:** All upstream copyright notices and license files remain intact within each engine package.
+- **Trademark and Legal Documentation:** OpenCraft is an independent project and is not affiliated with Microsoft Corporation or Adobe Inc. File format designations (`.docx`, `.xlsx`, `.pptx`, `.pdf`) describe technical compatibility. See [LEGAL.md](LEGAL.md) for full trademark disclaimers, liability terms, and IP takedown contacts (`visoire@proton.me`).
+
 ## Related guides
 
 - [MCP-TOOLS.md](MCP-TOOLS.md): every tool, its arguments and how to call it from other clients
 - [AI-PROVIDERS.md](AI-PROVIDERS.md): providers, keys, reasoning, caching, token counts, Team Mode
 - [IPADOS-GUIDE.md](IPADOS-GUIDE.md): pairing, Apple Pencil, Magic Keyboard, browser mode
+- [LEGAL.md](LEGAL.md): legal notices, upstream engine attribution, trademark disclaimers, and liability terms

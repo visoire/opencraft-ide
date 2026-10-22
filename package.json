@@ -1,0 +1,63 @@
+{
+  "name": "opencraft-ide",
+  "version": "1.0.0",
+  "private": true,
+  "description": "OpenCraft IDE: a local-first workspace that runs WordCraft, GridCraft, DeckCraft and PdfCraft as panels next to a code editor, a terminal, Git and an AI assistant that drives every tool over MCP.",
+  "license": "MIT OR Apache-2.0",
+  "author": "visoire (https://github.com/visoire)",
+  "contributors": [
+    { "name": "visoire", "url": "https://github.com/visoire" },
+    { "name": "ArtCraft Team and contributors (storytold)", "url": "https://github.com/storytold" },
+    { "name": "Claude (Anthropic)", "url": "https://www.anthropic.com/claude" }
+  ],
+  "homepage": "https://github.com/visoire/opencraft-ide#readme",
+  "repository": { "type": "git", "url": "git+https://github.com/visoire/opencraft-ide.git" },
+  "bugs": { "url": "https://github.com/visoire/opencraft-ide/issues" },
+  "keywords": ["opencraft", "ide", "local-first", "mcp", "model-context-protocol", "webassembly", "webgpu", "ai-agents", "office-suite", "typescript", "ipados", "open-source"],
+  "type": "module",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "dev:lan": "node scripts/dev.mjs --lan",
+    "build": "vite build && node scripts/copy-apps.mjs && node scripts/postbuild.mjs && tsc -p tsconfig.server.json",
+    "start": "node dist-server/server/index.js --open",
+    "start:lan": "node dist-server/server/index.js --lan --open",
+    "typecheck": "tsc -p tsconfig.json && tsc -p tsconfig.server.json --noEmit",
+    "test": "tsx --test tests/server/backend.test.ts tests/server/windows.test.ts tests/server/lan.test.ts tests/server/usage.test.ts tests/server/features.test.ts tests/server/core.test.ts tests/server/releases.test.ts",
+    "test:e2e": "node tests/e2e.mjs",
+    "test:e2e:features": "node tests/e2e-features.mjs",
+    "test:ipad": "node tests/e2e-ipad.mjs",
+    "check:clean": "node scripts/check-clean.mjs",
+    "preview": "vite preview --host 127.0.0.1 --port 4174",
+    "github:metadata": "node scripts/github-metadata.mjs"
+  },
+  "dependencies": {
+    "@fontsource-variable/inter": "^5.2.5",
+    "@fontsource/dm-mono": "^5.2.5",
+    "@hono/node-server": "^1.19.17",
+    "@hono/node-ws": "^1.3.1",
+    "@modelcontextprotocol/client": "^2.3.1",
+    "@modelcontextprotocol/server": "^2.3.1",
+    "@xterm/addon-fit": "^0.11.0",
+    "@xterm/xterm": "^6.0.0",
+    "docx": "^9.12.0",
+    "exceljs": "^4.4.0",
+    "fflate": "^0.8.3",
+    "gpt-tokenizer": "4.0.0",
+    "hono": "^4.13.13",
+    "mammoth": "^1.13.0",
+    "pdf-lib": "^1.17.1",
+    "pptxgenjs": "^4.0.1",
+    "unpdf": "^1.9.1",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.5",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2",
+    "vite": "^6.0.0"
+  },
+  "optionalDependencies": {
+    "node-pty": "^1.1.0"
+  }
+}

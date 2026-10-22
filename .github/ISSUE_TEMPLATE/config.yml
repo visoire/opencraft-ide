@@ -1,0 +1,14 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Documentation
+    url: https://github.com/visoire/opencraft-ide#readme
+    about: Quick start, architecture, the MCP tools and the known limits.
+  - name: Questions and ideas (Discussions)
+    url: https://github.com/visoire/opencraft-ide/discussions
+    about: Ask a question or share an idea before you open an issue.
+  - name: Security vulnerability
+    url: https://github.com/visoire/opencraft-ide/security/advisories/new
+    about: Please report security problems privately, never in a public issue.
+  - name: A bug inside WordCraft, GridCraft, DeckCraft or PdfCraft
+    url: https://github.com/storytold
+    about: Problems in the apps themselves belong to their own repositories under storytold.

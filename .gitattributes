@@ -1,0 +1,4 @@
+# The four web apps in versions/ are loaded with Subresource Integrity (sha384) checks.
+# Git must keep them byte for byte, otherwise Windows (core.autocrlf=true) turns LF into
+# CRLF on checkout, the checksums stop matching and the browser blocks the app scripts.
+/versions/** -text

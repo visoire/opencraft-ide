@@ -1,0 +1,69 @@
+# OpenCraft IDE (open source). Only these stay out: credentials, local data, dependencies,
+# build output and large release archives. `npm run check:clean` scans the content for API keys
+# before every commit (git config core.hooksPath .githooks).
+
+# ---------------------------------------------------------------------------
+# Credentials and local data
+private/
+**/private/
+*.sqlite
+*.sqlite3
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+*.dump
+.env
+.env.*
+!.env.example
+*.local.*
+*.secret.*
+*.pem
+*.key
+*.p12
+*.pfx
+id_rsa*
+id_ed25519*
+# The IDE keeps its settings and API keys in ~/OpenCraft, never in the repository
+/OpenCraft/
+config.json.tmp
+config.json.broken-*
+
+# ---------------------------------------------------------------------------
+# Dependencies and build output
+node_modules/
+dist/
+dist-server/
+.vite/
+.temp/
+test-results/
+playwright-report/
+
+# ---------------------------------------------------------------------------
+# Release archives (too large for Git). From versions/ only the four web apps of the current set
+# (public/releases.json) are tracked; zips, source trees and older sets stay local.
+/versions/*
+!/versions/v9-10/
+/versions/v9-10/*
+!/versions/v9-10/web/
+/versions/v9-10/web/*
+!/versions/v9-10/web/wordcraft-web-*/
+!/versions/v9-10/web/gridcraft-web-*/
+!/versions/v9-10/web/deckcraft-web-*/
+!/versions/v9-10/web/pdfcraft-web-*/
+
+# Protected brand assets and original logos of the engines
+docs/brand/
+**/docs/brand/
+/public/assets/logos/*
+!/public/assets/logos/*.webp
+
+# ---------------------------------------------------------------------------
+# Operating system and editor
+.DS_Store
+Thumbs.db
+desktop.ini
+*.log
+*.swp
+.idea/
+.vscode/

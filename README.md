@@ -6,6 +6,11 @@ OpenCraft IDE runs the open-source office engines **WordCraft**, **GridCraft**, 
 
 Version **1.0.0**, licensed **MIT OR Apache-2.0**. Ships with WordCraft 0.9.0, GridCraft 0.9.0, DeckCraft 0.9.0 and PdfCraft 0.10.1.
 
+![OpenCraft IDE Showcase 1](showcase1.png)
+![OpenCraft IDE Showcase 2](showcase2.png)
+![OpenCraft IDE Showcase 3](showcase3.png)
+![OpenCraft IDE Showcase 4](showcase4.png)
+
 | | |
 | :--- | :--- |
 | **Multi-panel WebAssembly IDE** | The four engines as panels (WebGPU, WebGL2 as a fallback), plus code editor, terminal and Git. Split, maximize, minimize to the dock, picture in picture, focus mode. Apps keep their state while you rearrange them. |

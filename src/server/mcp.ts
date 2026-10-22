@@ -21,6 +21,7 @@ import { graph } from './graph.js';
 import { createSnapshot, snapshotForChain } from './snapshots.js';
 import { log, metric } from './logs.js';
 import { auditRecord } from './audit.js';
+import { VERSION } from '../core/version.js';
 
 // ---------------------------------------------------------------- Approvals (run-command, sign-pdf)
 
@@ -115,7 +116,7 @@ export async function syncExternalServers(): Promise<void> {
         const ext: External = { entry, client: null, tools: [], status: 'off', sandbox: '' };
         externals.set(entry.id, ext);
         try {
-          const client = new Client({ name: 'opencraft', version: '1.2.0' });
+          const client = new Client({ name: 'opencraft', version: VERSION });
           if (entry.transport === 'http') {
             if (!entry.url) throw new Error('The server has no URL');
             if (config().privacy.localOnly && !isLocalUrl(entry.url)) throw new Error('Local-only mode is on: remote MCP servers are blocked');
@@ -162,7 +163,7 @@ export function externalNeedsApproval(name: string): boolean {
 // ---------------------------------------------------------------- Server
 
 function buildServer(): McpServer {
-  const server = new McpServer({ name: 'opencraft-project', version: '0.2.0' }, { capabilities: { tools: { listChanged: true } } });
+  const server = new McpServer({ name: 'opencraft-project', version: VERSION }, { capabilities: { tools: { listChanged: true } } });
   for (const def of TOOL_DEFS.filter((d) => d.side === 'server')) {
     const handler = HANDLERS[def.name];
     if (!handler) continue;

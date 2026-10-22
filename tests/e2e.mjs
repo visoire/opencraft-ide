@@ -167,7 +167,7 @@ const mock = createServer((req, res) => {
 
 // ---------------------------------------------------------------- Start the stack
 const HOME = mkdtempSync(join(tmpdir(), 'opencraft-e2e-'));
-const stack = spawn(process.execPath, ['scripts/dev.mjs'], { env: { ...process.env, OPENCRAFT_HOME: HOME, OPENCRAFT_PORT: String(API_PORT), OPENCRAFT_UI_PORT: String(UI_PORT) }, stdio: ['ignore', 'pipe', 'pipe'], detached: true });
+const stack = spawn(process.execPath, ['scripts/dev.mjs'], { env: { ...process.env, OPENCRAFT_FIRST_PROJECT: 'sample', OPENCRAFT_HOME: HOME, OPENCRAFT_PORT: String(API_PORT), OPENCRAFT_UI_PORT: String(UI_PORT) }, stdio: ['ignore', 'pipe', 'pipe'], detached: true });
 // Always drain both pipes: a full pipe would block the backend
 stack.stdout.on('data', (d) => process.env.DEBUG && process.stdout.write(d));
 stack.stderr.on('data', (d) => process.env.DEBUG && process.stderr.write(d));
@@ -828,6 +828,13 @@ try {
   const p2 = await api('/api/projects');
   check('5c: project created and switched', !!switched && p2.active.name === 'Test project E2E' && p2.projects.length === 2);
   check('5d: chat of the new project is empty', (await page.locator('.msg').count()) === 0);
+  // An empty project offers the sample data as a project of its own
+  const offer = await waitFor(async () => (await page.locator('[data-tree-empty] [data-load-sample]').count()) === 1, 10000);
+  check('5d2: an empty project offers Load sample data', !!offer);
+  await page.locator('[data-load-sample]').click();
+  const toSample = await waitFor(async () => (await page.locator('.tree-project-name').innerText()) === 'Sample project', 20000);
+  const p3 = await api('/api/projects');
+  check('5d3: Load sample data opens the existing sample project, no second copy', !!toSample && p3.active.name === 'Sample project' && p3.projects.length === 2, `${p3.active.name}, ${p3.projects.length} projects`);
   // Export the sample project and import it as a new project
   const sample = p2.projects.find((p) => p.name === 'Sample project');
   const zipBytes = await page.evaluate(async (id) => Array.from(new Uint8Array(await (await fetch(`/api/projects/${id}/export`)).arrayBuffer())), sample.id);

@@ -171,6 +171,10 @@ Run all five checks before you call a change done: typecheck, test, test:e2e, ch
   Never point a test at the dev server on 5175 and 5176: that one uses the real `~/OpenCraft`.
 - Do not edit files under `src/` while an e2e run is going: the dev servers watch `src/` and reload.
 - Mock model scripts strip the `<context>` and `<session>` blocks before matching keywords.
+- A new installation starts with an empty **My project**. The test stacks set
+  `OPENCRAFT_FIRST_PROJECT=sample` so they start with the sample project; a test that needs the
+  default must leave it unset (see `tests/server/projects.test.ts`).
+- The version the IDE reports lives in `src/core/version.ts` and must equal `package.json`.
 - `tests/server/releases.test.ts` skips the website checks here (no homepage in this repository).
 
 ## Do not

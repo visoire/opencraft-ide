@@ -70,7 +70,7 @@ const mock = createServer((req, res) => {
 }).listen(MOCK_PORT, '127.0.0.1');
 
 const HOME = mkdtempSync(join(tmpdir(), 'opencraft-e2e-features-'));
-const stack = spawn(process.execPath, ['scripts/dev.mjs'], { env: { ...process.env, OPENCRAFT_HOME: HOME, OPENCRAFT_PORT: String(API_PORT), OPENCRAFT_UI_PORT: String(UI_PORT), OPENCRAFT_SHARE_PORT: '5199' }, stdio: ['ignore', 'pipe', 'pipe'], detached: true });
+const stack = spawn(process.execPath, ['scripts/dev.mjs'], { env: { ...process.env, OPENCRAFT_FIRST_PROJECT: 'sample', OPENCRAFT_HOME: HOME, OPENCRAFT_PORT: String(API_PORT), OPENCRAFT_UI_PORT: String(UI_PORT), OPENCRAFT_SHARE_PORT: '5199' }, stdio: ['ignore', 'pipe', 'pipe'], detached: true });
 stack.stdout.on('data', (d) => process.env.DEBUG && process.stdout.write(d));
 stack.stderr.on('data', (d) => process.env.DEBUG && process.stderr.write(d));
 for (let i = 0; i < 150; i++) {

@@ -192,11 +192,31 @@ function startWatch(id: string, root: string) {
 
 export { moveDir } from './fsutil.js';
 
+/** Name of the bundled sample project ("Load sample data" opens or creates it). */
+export const SAMPLE_NAME = 'Sample project';
+
+/**
+ * The project a new installation starts with: an empty "My project" of the user's own, so nobody
+ * works on shared demo files. OPENCRAFT_FIRST_PROJECT=sample starts with the sample project instead
+ * (test stacks and demo machines).
+ */
+export async function firstProject(): Promise<ProjectMeta> {
+  return process.env.OPENCRAFT_FIRST_PROJECT === 'sample' ? createProject(SAMPLE_NAME, 'sample') : createProject('My project', 'empty');
+}
+
+/** Opens the sample project, creating it from the template the first time. The user's projects stay as they are. */
+export async function openSample(): Promise<{ meta: ProjectMeta; created: boolean }> {
+  const existing = listProjects().find((p) => p.name === SAMPLE_NAME);
+  const meta = existing || (await createProject(SAMPLE_NAME, 'sample'));
+  await switchProject(meta.id);
+  return { meta, created: !existing };
+}
+
 export async function activeProject(): Promise<{ meta: ProjectMeta; root: string }> {
   const want = config().activeProject;
   if (active && active.id === want && existsSync(active.root)) return getProject(active.id);
   let meta = want ? readMeta(want) : null;
-  if (!meta) meta = listProjects()[0] || (await createProject('Sample project', 'sample'));
+  if (!meta) meta = listProjects()[0] || (await firstProject());
   if (config().activeProject !== meta.id) updateConfig((c) => void (c.activeProject = meta!.id));
   active = { id: meta.id, root: rootOf(meta.id) };
   startWatch(meta.id, active.root);

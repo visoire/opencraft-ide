@@ -20,6 +20,7 @@ import { createPanelServer } from './panel-server.js';
 import { FileLocks, lockKeysFor } from './locks.js';
 import { t as tr, lang } from '../app/i18n.js';
 import { z } from 'zod';
+import { VERSION } from '../core/version.js';
 
 // Validation messages in the language of the interface (the backend keeps English)
 if (lang === 'de') z.config(z.locales.de());
@@ -82,7 +83,7 @@ function metaFor(name: string, description: string, inputSchema: Record<string, 
 }
 
 async function connectBackend(): Promise<void> {
-  const c = new Client({ name: 'opencraft-ide', version: '0.2.0' });
+  const c = new Client({ name: 'opencraft-ide', version: VERSION });
   if (backendMode.browser) {
     // Browser mode: file tools through the IndexedDB, without the desktop
     const { createBrowserServer } = await import('./browser-server.js');
@@ -97,7 +98,7 @@ async function connectPanels(): Promise<void> {
   const [a, b] = InMemoryTransport.createLinkedPair();
   const server = createPanelServer();
   await server.connect(b);
-  const c = new Client({ name: 'opencraft-ide-panels', version: '0.2.0' });
+  const c = new Client({ name: 'opencraft-ide-panels', version: VERSION });
   await c.connect(a);
   panels = c;
 }

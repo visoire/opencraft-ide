@@ -5,6 +5,22 @@ and the project uses [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Projects
+
+- A new installation, and every new browser in browser mode, starts with an empty project of its own
+  (**My project**) instead of shared demo files.
+- **Load sample data** in the empty project tree and the project menu opens the sample project as a
+  separate project, created the first time (`POST /api/projects/sample`). Your own project stays
+  untouched.
+- `OPENCRAFT_FIRST_PROJECT=sample` starts a new installation with the sample project (test stacks,
+  demo machines).
+
+### Version
+
+- The backend, the Status page, browser mode and the MCP servers and clients now report the release
+  version 1.0.0 from one place, `src/core/version.ts` (before: 1.2.0, and 0.2.0 for MCP). A test keeps
+  it equal to `package.json`.
+
 ### Documentation
 
 - New guides in `docs/`: `ARCHITECTURE.md`, `MCP-TOOLS.md`, `AI-PROVIDERS.md` and `IPADOS-GUIDE.md`.

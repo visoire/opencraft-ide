@@ -31,7 +31,7 @@ OpenCraft runs **WordCraft**, **GridCraft**, **DeckCraft** and **PdfCraft** side
 1. **Install Node.js 20 or newer and Git.** On Windows, macOS and Linux.
 2. **Install the dependencies.** Run `npm install` in the project folder.
 3. **Start OpenCraft.** `npm run dev` for development or `npm run build` and `npm start` for production.
-4. **Open the IDE.** Go to `http://localhost:5175/ide/`. The sample project opens with the four apps.
+4. **Open the IDE.** Go to `http://localhost:5175/ide/`. Your own empty project opens. Import your files, or press **Load sample data** to open a separate sample project with a document, a spreadsheet, slides and a PDF.
 5. **Pick a model.** Settings, AI models: add an API key, your own endpoint, or start Ollama for fully local work.
 :::
 
@@ -43,6 +43,12 @@ npm run build && npm start   # production on :5175
 
 > [!TIP]
 > Use `localhost` instead of `127.0.0.1` in the browser. Then the website and the IDE share the light or dark choice.
+
+## Your own projects and the sample data
+
+Every installation, and every browser in browser mode, starts with an empty project of its own called **My project**. Nobody shares demo files, and your documents stay in your own data folder.
+
+**Load sample data** (in the empty project tree, or the project menu) opens the bundled sample project: a Word document, a spreadsheet with formulas, a presentation, a PDF and a bit of code. It is a project of its own, so trying things there never touches your files. Switch back in the project menu. **New project** in the same menu can also start a project with the sample files.
 
 ## Data folder
 
@@ -233,7 +239,7 @@ The log lives in `~/OpenCraft/audit.jsonl` (browser mode: IndexedDB) and keeps t
 - the personal context and personas,
 - optionally plugins and MCP servers.
 
-Type the confirmation word and press **Delete everything now**. OpenCraft overwrites each file with random data before it removes it, then creates a fresh sample project.
+Type the confirmation word and press **Delete everything now**. OpenCraft overwrites each file with random data before it removes it, then starts again with an empty project.
 
 > [!WARNING]
 > Overwriting is a best effort. SSDs, copy-on-write file systems, snapshots of the operating system and backups can keep old blocks. For devices you hand over, use full-disk encryption as well.

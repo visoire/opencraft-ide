@@ -2,7 +2,7 @@
 // settings and the optional status bar read from here, so neither needs the other.
 import { bus } from './bus.js';
 
-export const VERSION = '1.2.0';
+export { VERSION } from '../core/version.js';
 
 export interface AppStatus {
   /** Offline cache (service worker) */

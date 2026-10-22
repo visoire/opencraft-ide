@@ -128,10 +128,19 @@ async function activeProject(): Promise<ProjectMeta> {
   const list = await projectList();
   let meta = list.find((p) => p.id === id);
   if (!meta) {
-    meta = list[0] || (await createProject('Sample project', 'sample'));
+    // A new browser starts with an empty project of its own; "Load sample data" opens the sample project
+    meta = list[0] || (await createProject('My project', 'empty'));
     await put('kv', 'active', meta.id);
   }
   return meta;
+}
+
+/** Opens the sample project of this browser, creating it from the template the first time. */
+async function openSample(): Promise<{ meta: ProjectMeta; created: boolean }> {
+  const existing = (await projectList()).find((p) => p.name === 'Sample project');
+  const meta = existing || (await createProject('Sample project', 'sample'));
+  await put('kv', 'active', meta.id);
+  return { meta, created: !existing };
 }
 
 async function touch(project: string) {
@@ -777,6 +786,7 @@ export async function handle(path: string, init: RequestInit = {}): Promise<Resp
       if (b.switchTo !== false) await put('kv', 'active', meta.id);
       return json(meta);
     }
+    if (p === '/api/projects/sample' && method === 'POST') return json(await openSample());
     if (p === '/api/projects/import' && method === 'POST') {
       const meta = await importProject(await bodyBytes(init), q('name'));
       if (q('switch') !== '0') await put('kv', 'active', meta.id);

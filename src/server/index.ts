@@ -35,7 +35,8 @@ import { gc as gcObjects } from './snapshots.js';
 
 captureConsole();
 
-export const VERSION = '1.2.0';
+export { VERSION } from '../core/version.js';
+import { VERSION } from '../core/version.js';
 const DEV = process.env.OPENCRAFT_DEV === '1';
 const PORT = Number(process.env.OPENCRAFT_PORT || 5175);
 const UI_PORT = Number(process.env.OPENCRAFT_UI_PORT || PORT);
@@ -277,6 +278,8 @@ api.post('/projects', async (c) => {
   if (b.switchTo) await P.switchProject(meta.id);
   return c.json(meta);
 });
+// "Load sample data": opens the sample project (created from the template the first time)
+api.post('/projects/sample', async (c) => c.json(await P.openSample()));
 api.post('/projects/:id/switch', async (c) => c.json(await P.switchProject(c.req.param('id'))));
 api.patch('/projects/:id', async (c) => c.json(P.renameProject(c.req.param('id'), z.object({ name: z.string() }).parse(await c.req.json()).name)));
 api.delete('/projects/:id', async (c) => {

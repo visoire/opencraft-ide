@@ -138,6 +138,22 @@ test('Homepage: placeholders filled, current versions, three Windows builds and 
   assert.ok(w!.version === g!.version && g!.version === d!.version, 'WordCraft, GridCraft and DeckCraft share a version; otherwise reword the hero badge and the roadmap tile in index.html');
 });
 
+test('IDE links: ide/ and docs/ with the IDE in the checkout, GitHub on a website-only build', { skip: noSite }, async () => {
+  const { ideLinks, footer, IDE_GITHUB } = await import('../../scripts/partials.mjs' as string);
+  const page = `<a class="btn btn-solid" href="ide/" data-ide-link>Open the IDE <span>→</span></a>${footer('')}`;
+  assert.equal(ideLinks(page, true), page, 'unchanged when the IDE is here');
+  const home = ideLinks(page, false) as string;
+  assert.doesNotMatch(home, /href="(\.\.\/)*(ide|docs)\/"/, 'no link to a page this build does not have');
+  assert.match(home, new RegExp(`<a class="btn btn-solid" href="${IDE_GITHUB}#quick-start" target="_blank" rel="noopener" data-ide-link>Get the IDE`));
+  assert.match(home, new RegExp(`href="${IDE_GITHUB}#guides" target="_blank" rel="noopener" data-docs-link`));
+  // The anchors exist in the IDE's README
+  const readme = read(has('repos/ide/README.md') ? 'repos/ide/README.md' : 'README.md');
+  if (/^# OpenCraft IDE/m.test(readme)) {
+    assert.match(readme, /^## Quick start$/m);
+    assert.match(readme, /^### Guides$/m);
+  }
+});
+
 test('Knowledge base of the website assistant: versions, dates and sizes', { skip: noSite }, () => {
   const kb = JSON.parse(read('public/api/knowledge.json'));
   for (const r of rels) {

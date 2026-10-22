@@ -23,7 +23,7 @@
     "start": "node dist-server/server/index.js --open",
     "start:lan": "node dist-server/server/index.js --lan --open",
     "typecheck": "tsc -p tsconfig.json && tsc -p tsconfig.server.json --noEmit",
-    "test": "tsx --test tests/server/backend.test.ts tests/server/windows.test.ts tests/server/lan.test.ts tests/server/usage.test.ts tests/server/features.test.ts tests/server/core.test.ts tests/server/releases.test.ts",
+    "test": "tsx --test tests/server/backend.test.ts tests/server/windows.test.ts tests/server/lan.test.ts tests/server/usage.test.ts tests/server/features.test.ts tests/server/core.test.ts tests/server/projects.test.ts tests/server/releases.test.ts",
     "test:e2e": "node tests/e2e.mjs",
     "test:e2e:features": "node tests/e2e-features.mjs",
     "test:ipad": "node tests/e2e-ipad.mjs",

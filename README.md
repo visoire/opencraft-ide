@@ -30,7 +30,7 @@ npm install
 npm run dev
 ```
 
-Open `http://localhost:5175/ide/`. A sample project with a document, a spreadsheet, a presentation and a PDF opens with the four apps. Add a model under Settings, **AI models**: an API key, your own endpoint, or Ollama for fully local work.
+Open `http://localhost:5175/ide/`. You start in an empty project of your own (**My project**). Import your files, or press **Load sample data** to open a separate sample project with a document, a spreadsheet, a presentation and a PDF; your own project stays untouched. Add a model under Settings, **AI models**: an API key, your own endpoint, or Ollama for fully local work.
 
 On Windows, PowerShell and Command Prompt both work, and the IDE's terminal panel lets you switch between them. On macOS and Linux the terminal uses your `$SHELL`.
 

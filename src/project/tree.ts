@@ -156,7 +156,24 @@ export async function mount(el: HTMLElement, ctx: PanelContext): Promise<PanelIn
         return row;
       })
     );
-    if (!list.length) listEl.append(h('p.muted.tree-empty', filter ? tr('No matches.') : tr('The project is empty. Import files or create new ones.')));
+    if (!list.length && filter) listEl.append(h('p.muted.tree-empty', tr('No matches.')));
+    else if (!list.length) {
+      // A new project of your own starts empty; the sample files are one click away as a project of their own
+      const isSample = projects.current?.name === 'Sample project';
+      listEl.append(
+        h(
+          'div.tree-empty',
+          { 'data-tree-empty': '' },
+          h('p.muted', tr('This project is empty. Import files, drop them here or create new ones.')),
+          h(
+            'div.tree-empty-actions',
+            h('button.btn.sm', { type: 'button', onclick: () => fileInput.click(), html: icon('upload', { size: 14 }) + `<span>${tr('Import files')}</span>` }),
+            isSample ? null : h('button.btn.sm.ghost', { type: 'button', 'data-load-sample': '', onclick: () => void projects.openSample(), html: icon('spark', { size: 14 }) + `<span>${tr('Load sample data')}</span>` })
+          ),
+          isSample ? null : h('p.muted.tree-empty-note', tr('Opens a separate sample project with a document, a spreadsheet, slides and a PDF. Your own project stays as it is.'))
+        )
+      );
+    }
     const files = fs.files();
     footEl.textContent = `${files.length === 1 ? tr('1 file') : tr('{n} files', { n: files.length })} · ${formatBytes(files.reduce((s, f) => s + f.size, 0))} · ${tr('local')}`;
     paintOpenMarks();

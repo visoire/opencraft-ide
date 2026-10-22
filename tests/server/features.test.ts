@@ -45,7 +45,7 @@ async function sse(path: string, body: unknown): Promise<{ type: string; error?:
 }
 
 function start(s: typeof A) {
-  const p = spawn(process.execPath, ['--import', 'tsx', 'src/server/index.ts'], { env: { ...process.env, OPENCRAFT_HOME: s.home, OPENCRAFT_PORT: String(s.port), OPENCRAFT_SHARE_PORT: String(s.share), OPENCRAFT_DEV: '1' }, stdio: ['ignore', 'pipe', 'pipe'] });
+  const p = spawn(process.execPath, ['--import', 'tsx', 'src/server/index.ts'], { env: { ...process.env, OPENCRAFT_FIRST_PROJECT: 'sample', OPENCRAFT_HOME: s.home, OPENCRAFT_PORT: String(s.port), OPENCRAFT_SHARE_PORT: String(s.share), OPENCRAFT_DEV: '1' }, stdio: ['ignore', 'pipe', 'pipe'] });
   p.stderr?.on('data', (d: Buffer) => process.stderr.write(d));
   procs.push(p);
 }

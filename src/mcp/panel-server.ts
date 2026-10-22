@@ -6,6 +6,7 @@ import { TOOL_DEFS } from './schemas.js';
 import { workspace } from '../workspace/layout.js';
 import { TOOLS, type ToolId } from '../workspace/registry.js';
 import { t as tr } from '../app/i18n.js';
+import { VERSION } from '../core/version.js';
 
 type Handler = (args: Record<string, unknown>) => Promise<{ text: string; data?: Record<string, unknown> }>;
 
@@ -28,7 +29,7 @@ const HANDLERS: Record<string, Handler> = {
 };
 
 export function createPanelServer(): McpServer {
-  const server = new McpServer({ name: 'opencraft-panels', version: '0.2.0' }, { capabilities: { tools: {} } });
+  const server = new McpServer({ name: 'opencraft-panels', version: VERSION }, { capabilities: { tools: {} } });
   for (const def of TOOL_DEFS.filter((d) => d.side === 'client')) {
     const run = HANDLERS[def.name];
     if (!run) continue;

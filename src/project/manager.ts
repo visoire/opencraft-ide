@@ -65,6 +65,18 @@ export const projects = {
     }
   },
 
+  /** "Load sample data": opens the sample project as a project of its own, so the user's files stay untouched. */
+  async openSample(): Promise<void> {
+    try {
+      await flushBeforeSwitch();
+      const r = await api.send<{ meta: ProjectMeta; created: boolean }>('POST', '/api/projects/sample', {});
+      toast(r.created ? tr('Sample project created') : tr('Sample project opened'), 'success', tr('Your own projects stay as they are. Switch back in the project menu.'));
+      bus.emit('project:changed');
+    } catch (e) {
+      notifyError(e);
+    }
+  },
+
   async switchTo(id: string): Promise<void> {
     if (current?.id === id) return;
     try {
@@ -190,6 +202,7 @@ export const projects = {
     items.push(
       '-',
       { label: tr('New project'), icon: 'plus', run: () => void this.create() },
+      { label: tr('Load sample data'), icon: 'spark', run: () => void this.openSample() },
       { label: tr('Import project (ZIP)'), icon: 'upload', run: () => this.pickZip() },
       { label: tr('Export current project'), icon: 'archive', run: () => void this.exportZip() },
       { label: tr('Export as HTML gallery'), icon: 'browser', run: () => void this.exportAs('html') },

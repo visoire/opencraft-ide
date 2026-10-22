@@ -1,4 +1,6 @@
-// Sample project on the first start: files that open in the four apps.
+// The sample project template: files that open in the four apps. Used by "Load sample data"
+// (openSample in projects.ts), by New project with samples, and on the first start only when
+// OPENCRAFT_FIRST_PROJECT=sample. A normal installation starts with an empty project of its own.
 import { writeFile, mkdir } from 'node:fs/promises';
 import { join, dirname } from 'node:path';
 import { markdownToDocx } from './office/docs.js';

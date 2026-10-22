@@ -38,6 +38,10 @@ function pages() {
   return input;
 }
 
+// The website links to ide/ and docs/ only when this checkout contains the IDE (the monorepo); a
+// website-only build (opencraft-home) links to the IDE on GitHub instead (ideLinks in scripts/partials.mjs).
+const HAS_IDE = existsSync(resolve(__dirname, 'ide', 'index.html'));
+
 /** Path from a page back to the root: '' for index.html, '../' for contact/index.html. */
 function baseFor(file) {
   const depth = relative(ROOT, dirname(file)).split(sep).filter(Boolean).length;
@@ -54,7 +58,7 @@ function siteChrome() {
     transformIndexHtml(html, ctx) {
       const file = ctx.filename || resolve(ROOT, (ctx.path || '/').replace(/^\//, '') || 'index.html');
       const base = baseFor(file);
-      return releasePlaceholders(html, goUrl, base)
+      const out = releasePlaceholders(html, goUrl, base)
         .replace(/<!--GO:(\w+):([\w-]+)-->/g, (_, app, to) => goUrl(base, app, to))
         .replace(/<!--\s*HEAD(?:[-_]?ICONS)?\s*-->/g, () => (site ? site.headIcons(base, html) : ''))
         .replace(/<!--\s*HEADER(?::([^>]*?))?\s*-->/g, (_, cur) => (site ? site.header(base, cur || '') : ''))
@@ -63,6 +67,7 @@ function siteChrome() {
         .replace(/<!--ICON:(\w+):(\d+)-->/g, (_, n, s) => svgIcon(n, Number(s)))
         .replace(/<!--LOGO:(\d+)-->/g, (_, s) => logoSvg(Number(s)))
         .replace(/<!--MARK:(\d+)-->/g, (_, s) => markSvg(Number(s)));
+      return site?.ideLinks ? site.ideLinks(out, HAS_IDE) : out;
     },
   };
 }

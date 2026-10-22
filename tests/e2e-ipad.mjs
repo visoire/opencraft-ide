@@ -86,7 +86,7 @@ const mock = createServer((req, res) => {
 
 // ---------------------------------------------------------------- Start the stack
 const HOME = mkdtempSync(join(tmpdir(), 'opencraft-ipad-'));
-const stack = spawn(process.execPath, ['scripts/dev.mjs'], { env: { ...process.env, OPENCRAFT_HOME: HOME, OPENCRAFT_PORT: String(API_PORT), OPENCRAFT_UI_PORT: String(UI_PORT) }, stdio: ['ignore', 'pipe', 'pipe'], detached: true });
+const stack = spawn(process.execPath, ['scripts/dev.mjs'], { env: { ...process.env, OPENCRAFT_FIRST_PROJECT: 'sample', OPENCRAFT_HOME: HOME, OPENCRAFT_PORT: String(API_PORT), OPENCRAFT_UI_PORT: String(UI_PORT) }, stdio: ['ignore', 'pipe', 'pipe'], detached: true });
 // Always drain both pipes: a full pipe would block the backend
 stack.stdout.on('data', (d) => process.env.DEBUG && process.stdout.write(d));
 stack.stderr.on('data', (d) => process.env.DEBUG && process.stderr.write(d));
@@ -572,8 +572,13 @@ try {
   await bp.waitForTimeout(1500);
   const bstate = await bp.evaluate(() => ({ mode: document.documentElement.dataset.backend, chip: document.querySelector('.sb-backend').textContent, dialogs: document.querySelectorAll('.boot-down, .boot-error').length }));
   check('5a: without the desktop, browser mode starts by itself without an error message', bstate.mode === 'browser' && /Browser mode/.test(bstate.chip) && bstate.dialogs === 0, JSON.stringify(bstate));
+  // A new browser starts with an empty project of its own; "Load sample data" opens the sample project
+  const empty = await bp.evaluate(() => ({ rows: document.querySelectorAll('.tree-row').length, name: document.querySelector('.tree-project-name')?.textContent, button: !!document.querySelector('[data-load-sample]') }));
+  check('5b: a new browser starts with an empty project of its own and offers sample data', empty.rows === 0 && empty.name === 'My project' && empty.button, JSON.stringify(empty));
+  await bp.locator('[data-load-sample]').tap();
+  await waitFor(bp, async () => (await bp.locator('.tree-project-name').innerText()) === 'Sample project' && (await bp.locator('.tree-row').count()) > 0, 10000);
   const tree = await bp.locator('.tree-row').allInnerTexts();
-  check('5b: sample project from the IndexedDB', tree.some((t) => /welcome\.md/.test(t)) || tree.some((t) => /documents/.test(t)), tree.slice(0, 6).join(', '));
+  check('5b2: Load sample data opens the sample project from the IndexedDB', tree.some((t) => /documents/.test(t)), tree.slice(0, 6).join(', '));
   // Import files through the file dialog
   await bp.evaluate(() => window.dispatchEvent(new Event('noop')));
   await bp.evaluate(() => void window.__opencraftWorkspace.openPanel('settings'));

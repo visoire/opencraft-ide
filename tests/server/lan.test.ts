@@ -78,7 +78,7 @@ function raw(host: string, path: string, headers: Record<string, string> = {}): 
 }
 
 before(async () => {
-  proc = spawn(process.execPath, ['--import', 'tsx', 'src/server/index.ts'], { env: { ...process.env, OPENCRAFT_HOME: HOME, OPENCRAFT_PORT: String(PORT), OPENCRAFT_DEV: '1', OPENCRAFT_LAN: '1' }, stdio: ['ignore', 'pipe', 'pipe'] });
+  proc = spawn(process.execPath, ['--import', 'tsx', 'src/server/index.ts'], { env: { ...process.env, OPENCRAFT_FIRST_PROJECT: 'sample', OPENCRAFT_HOME: HOME, OPENCRAFT_PORT: String(PORT), OPENCRAFT_DEV: '1', OPENCRAFT_LAN: '1' }, stdio: ['ignore', 'pipe', 'pipe'] });
   for (let i = 0; i < 100; i++) {
     try {
       const r = await raw('127.0.0.1', '/api/health', { host: `127.0.0.1:${PORT}` });

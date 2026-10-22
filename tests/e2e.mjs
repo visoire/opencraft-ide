@@ -711,7 +711,7 @@ try {
   await shot('10-team-roster');
   await page.keyboard.press('Escape');
   const teamCfg = (await api('/api/config')).team?.active;
-  check('7c: roster: Team Leader and five specialists in their Atelier accents, saved in the backend', rosterAccents.length === 6 && rosterAccents.every(([r, a]) => HEX[r] === a) && teamCfg?.leader.provider === customId && teamCfg?.leader.effort === 'high' && teamCfg?.workers.find((w) => w.role === 'deck')?.provider === 'deepseek' && teamCfg.workers.every((w) => w.enabled), JSON.stringify({ rosterAccents, leader: teamCfg?.leader }));
+  check('7c: roster: Team Leader and five specialists in their role accents, saved in the backend', rosterAccents.length === 6 && rosterAccents.every(([r, a]) => HEX[r] === a) && teamCfg?.leader.provider === customId && teamCfg?.leader.effort === 'high' && teamCfg?.workers.find((w) => w.role === 'deck')?.provider === 'deepseek' && teamCfg.workers.every((w) => w.enabled), JSON.stringify({ rosterAccents, leader: teamCfg?.leader }));
 
   // The team run: GridCraft reads @finanzen.xlsx, then WordCraft and DeckCraft write in parallel
   const callsBefore = teamCalls.length;

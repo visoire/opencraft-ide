@@ -3,6 +3,16 @@
 All notable changes to OpenCraft IDE. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 and the project uses [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Documentation
+
+- New guides in `docs/`: `ARCHITECTURE.md`, `MCP-TOOLS.md`, `AI-PROVIDERS.md` and `IPADOS-GUIDE.md`.
+- README: quick start for Windows, macOS, Linux and iPadOS, where API keys are kept, the keyboard
+  shortcut and chat operator tables, and links to the guides.
+- In-app documentation: new pages for keyboard shortcuts, iPad and Apple Pencil, AI providers and
+  Team Mode; the full list of chat commands; using `/mcp` from Claude Code.
+
 ## [1.0.0] - 2026-10-22
 
 The first public release of OpenCraft IDE.

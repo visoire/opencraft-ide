@@ -33,7 +33,7 @@ export interface RoleDef {
   short: string;
   /** App whose mark the card shows (workspace: the leader, code: the dev worker) */
   app: 'workspace' | 'gridcraft' | 'wordcraft' | 'deckcraft' | 'pdfcraft' | 'code';
-  /** Atelier accent */
+  /** Accent color of the role */
   accent: string;
   /** Icon from src/app/icons.js */
   icon: string;

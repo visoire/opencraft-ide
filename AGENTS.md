@@ -28,6 +28,7 @@ is welcome and gets carried back.
 index.html                 entry page, forwards to ide/
 ide/index.html             the IDE page (CSP meta tag, CSS links, src/app/main.ts)
 docs/index.html            documentation page, renders src/docs/content.md
+docs/*.md                  guides for people and agents: ARCHITECTURE, MCP-TOOLS, AI-PROVIDERS, IPADOS-GUIDE
 src/app/                   shell
   main.ts                  entry: top bar, tool rail, menu, keyboard shortcuts, theme, boot
   settings.ts              interface prefs (localStorage opencraft.prefs), prefs.get/set
@@ -148,7 +149,7 @@ Run all five checks before you call a change done: typecheck, test, test:e2e, ch
   `validateArgs` before it runs; invalid arguments go back to the model once for a self-correction.
 - Writes to the same file are serialized by `src/mcp/locks.ts`; reads never wait.
 - A new tool needs: the schema, the implementation (`src/server/tools.ts` or the panel server), a
-  test in `tests/server/`, and a line in `src/docs/content.md`.
+  test in `tests/server/`, and a line in `src/docs/content.md` and `docs/MCP-TOOLS.md`.
 
 ## Conventions
 

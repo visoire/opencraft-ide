@@ -9,10 +9,14 @@ OpenCraft runs **WordCraft**, **GridCraft**, **DeckCraft** and **PdfCraft** side
 - [Search and memory](#search) Find any passage in Word, Excel, PowerPoint, PDF and chats.
 - [Snapshots and undo](#snapshots) Undo an AI answer across all apps at once.
 - [Plugin API](#plugins) Add PhotoCraft, Blender, ComfyUI and more as MCP servers.
+- [AI providers](#providers) Claude, ChatGPT, Gemini, DeepSeek, Ollama and your own endpoint.
+- [Team Mode](#team) A Team Leader and specialist agents working in parallel.
+- [iPad and Apple Pencil](#ipad) Pair with your desktop over Wi-Fi, or work on the iPad alone.
+- [Keyboard shortcuts](#shortcuts) Every shortcut, plus the `@` and `/` operators of the chat.
 :::
 
 > [!NOTE]
-> This guide describes OpenCraft 1.1. Every feature on these pages works without an account and without the cloud. Cloud models are optional and you can switch them off completely.
+> This guide describes OpenCraft IDE 1.0. Every feature on these pages works without an account and without the cloud. Cloud models are optional and you can switch them off completely.
 
 ## What makes OpenCraft different
 
@@ -68,6 +72,80 @@ The AI router (`src/chat/providers.ts`) talks to Claude, ChatGPT, Gemini, DeepSe
 
 > [!INFO]
 > The four apps are WebAssembly builds. They expose no command API, so the AI works on the files and the apps show the new state live.
+
+Nothing is loaded from a CDN. Fonts, icons, the apps, the tokenizer data and the service worker all come from your own computer.
+
+<!-- page: shortcuts | Get started | Keyboard shortcuts | Every shortcut of the workspace, the code editor and the chat. -->
+
+On a Mac or an iPad with a Magic Keyboard, use `Cmd` where the table says `Ctrl`.
+
+| Shortcut | Does |
+|---|---|
+| `Ctrl K` | command palette |
+| `Ctrl J` | show or hide the chat |
+| `Ctrl Shift J` | Full Chat Mode |
+| `Ctrl Shift P` | float the focused panel (picture in picture) |
+| `Ctrl Shift K` | search the project |
+| `Ctrl Shift E` | show or hide the project tree |
+| `Ctrl Shift F` | focus mode |
+| `Ctrl Shift Enter` | maximize the focused panel |
+| `Ctrl Shift M` | minimize the focused panel to the dock |
+| `Alt 1` to `Alt 9` | jump to a panel |
+| `Alt \` | AI completion at the cursor in the code editor (`Tab` accepts, `Escape` dismisses) |
+| `Enter`, `Shift Enter` | send the chat message, new line |
+
+## Chat operators
+
+| Type | To |
+|---|---|
+| `@file.xlsx`, `@folder/` | attach a file or a folder listing |
+| `@wordcraft`, `@gridcraft`, `@deckcraft`, `@pdfcraft`, `@terminal` | attach the state of a panel and point the AI at its tools |
+| `@team`, `@leader` | run the prompt in [Team Mode](#team) |
+| `@grid-agent`, `@word-agent`, `@deck-agent`, `@pdf-agent`, `@dev-agent` | give the prompt to one specialist |
+| `/read-sheet`, `/create-slide`, `/sign-pdf`, ... | run an MCP tool; with complete arguments it runs without a model |
+| `/clear`, `/new`, `/history`, `/export-chat`, `/model`, `/help` | chat housekeeping, see [Chat and attachments](#chat) |
+
+Arrow keys, `Tab` and `Enter` move through the `@` and `/` menus. Without a hardware keyboard, the header and the chat show quick buttons for the command palette, `@` and `/`.
+
+<!-- page: ipad | Get started | iPad and Apple Pencil | Pair the iPad with your desktop over Wi-Fi, or use browser mode on the iPad alone. -->
+
+OpenCraft runs on iPad mini, Air and Pro in Safari, or as a full-screen app from the Home Screen (Share, **Add to Home Screen**). It picks one of two modes on its own:
+
+| Mode | When | What works |
+|---|---|---|
+| Home network | the desktop shares the IDE on Wi-Fi and the iPad is paired | everything: desktop projects, terminal, Git, Ollama on the desktop, all MCP tools |
+| Browser | no desktop answers | the four apps, projects stored on the iPad (IndexedDB), the chat with your own key, file import and export, the Apple Pencil in PdfCraft |
+
+## Pair the iPad with your desktop
+
+:::steps
+1. **Share the IDE on Wi-Fi.** On the desktop, open Settings, **iPad and network**, switch on **Share on Wi-Fi** and restart. Or start the IDE with `npm run dev:lan` or `npm run start:lan`.
+2. **Open the pairing link.** The desktop shows an address such as `http://192.168.178.20:5175/pair?token=...`. Open it once in Safari on the iPad.
+3. **Work.** From then on `http://<your PC>:5175/ide/` opens the IDE with your desktop projects.
+:::
+
+Every device except the desktop needs the access token. **Renew** in the settings disconnects all paired devices.
+
+## Apple Pencil
+
+- The pencil works like a precise mouse in the apps: cell ranges in GridCraft, shapes in DeckCraft and WordCraft, text selection. A hover ring shows where it will land.
+- **PdfCraft pencil view**: sign, write notes, highlight and redact on the page with pressure and tilt. Redaction rebuilds the page as an image, so covered text is really removed.
+- A finger scrolls, a long press opens the context menu, two fingers zoom. Palm rejection ignores your hand while the pencil writes or hovers.
+- Scribble works in the chat input, search fields and the code editor, so handwritten prompts become text.
+
+## Keyboard, screen and windows
+
+- The Magic Keyboard has every shortcut with `Cmd`, see [Keyboard shortcuts](#shortcuts).
+- The apps render at the iPad's full Retina resolution with correct sizes and pointer positions.
+- Stage Manager, Split View, Slide Over and rotation resize the workspace without reloading the apps. Below 700 pixels width the project tree and the chat become drawers.
+- The chat, the `@` and `/` menus and the terminal stay above the on-screen keyboard.
+
+> [!NOTE]
+> Over plain HTTP on the home network, Safari allows neither WebGPU nor offline caching. The apps then start with WebGL2 and the IDE runs without an offline cache. HTTPS through your own reverse proxy brings both back.
+
+## API keys in browser mode
+
+Without a desktop there is no protected key store. Keys stay in memory until you reload. Under Settings, **iPad and network** you can choose to keep them in this browser's storage; OpenCraft warns you first, because anything with access to the browser profile could read them. Use keys with a spending limit.
 
 <!-- page: privacy | Privacy and security | Your data and API keys | What stays on your computer, what leaves it, and when. -->
 
@@ -284,6 +362,76 @@ The sync compares both sides with the state of the last sync (three-way):
 > [!INFO]
 > From a page served over HTTPS, browsers block plain HTTP requests to the home network (mixed content). Open the IDE over `http://` on the iPad, or put the desktop behind HTTPS.
 
+<!-- page: providers | AI | AI providers and models | Claude, ChatGPT, Gemini, DeepSeek, Ollama and your own endpoints, with reasoning, caching and token numbers. -->
+
+Pick a provider in **Settings, AI models**, or switch it for one chat with `/model` or the model menu in the chat header.
+
+| Provider | What you need | Reasoning | Prompt cache |
+|---|---|---|---|
+| Claude | Anthropic API key | adaptive thinking with an effort level | marked on the tools, the system prompt and large documents |
+| ChatGPT | OpenAI API key | reasoning effort with summaries | per chat |
+| Gemini | Google AI API key | thinking level or budget | automatic |
+| DeepSeek | DeepSeek API key | thinking mode, shown as **Thought process** | prefix cache |
+| Ollama | Ollama on this computer or your network | depends on the model | local |
+| Custom | base URL, optional key and a model name of any OpenAI-compatible endpoint | depends on the endpoint | depends on the endpoint |
+
+**Test connection** checks a key or endpoint and lists its models. Requests go from the local backend straight to the provider, never through OpenCraft. Only browser mode on the iPad sends them from the browser.
+
+## Effort
+
+The model chip in the prompt bar sets the effort per provider: Auto, Off, Low, Medium, High or Max. OpenCraft translates it into each API's own setting.
+
+## Attachments
+
+PDFs and images you attach go to Claude, Gemini and ChatGPT as real documents and images (up to 8 per message, 20 MB each). DeepSeek, Ollama and custom endpoints get the extracted text.
+
+## Token numbers and costs
+
+- DeepSeek counts are exact, thanks to a built-in V4 tokenizer. ChatGPT counts are exact too. Claude and Gemini are estimated (marked ≈), unless you switch on **Remote counting**, which asks their counting endpoints and sends the text to the provider.
+- The chat footer shows the tokens of the chat, the cache hit ratio and the size of the next request while you type. The bar turns orange when the backend will shorten the request to fit, red when even that is not enough.
+- **Settings, Usage and telemetry** breaks it all down per provider and model. Costs appear once you enter your provider's rates; local models always cost $0.00.
+
+## DeepSeek presets
+
+Standard chat, Thinking, Deep thinking, and Coding and FIM. The last one powers `Alt \` completions in the code editor. Overrides for max tokens, temperature and effort are in Settings, AI models.
+
+> [!WARNING]
+> A cloud provider receives what you send in the chat, see [Your data and API keys](#privacy). [Local-only mode](#local-only) blocks every cloud provider.
+
+<!-- page: team | AI | Team Mode | A Team Leader plans, specialist agents work in parallel, and the leader reviews every result. -->
+
+The switch in the chat header changes between **Single** (one agent) and **Team**. In Team Mode a Team Leader plans your prompt as a task graph, specialist agents work at the same time, and the leader reviews each result before it writes the answer.
+
+| Role | Mention | Works with |
+|---|---|---|
+| Team Leader | `@leader` | plans, reviews and answers, no tools of its own |
+| Data and Sheet Specialist | `@grid-agent` | GridCraft tools |
+| Document and Copy Specialist | `@word-agent` | WordCraft tools |
+| Presentation Specialist | `@deck-agent` | DeckCraft tools |
+| PDF and Compliance Specialist | `@pdf-agent` | PdfCraft tools |
+| Code and System Specialist | `@dev-agent` | code, terminal, Git and external MCP servers |
+
+Every specialist can also read the project: `list-files`, `search-files`, `search-project` and `panel-status`.
+
+## The roster
+
+Open it with the roster button next to the switch, `/roster`, or **Settings, Team Mode**. Give the leader and each specialist its own provider, model and effort, for example a cloud leader with local Ollama specialists. Switch specialists on or off, set how many work at once (1 to 6), the review mode and the retries per task. Presets: Full Studio Team, Executive Launch Team, Financial Audit Team, Fullstack Dev Team and Fast Local/Hybrid Team. **Save as** keeps your own.
+
+## How a team run works
+
+:::steps
+1. **Plan.** The leader turns your prompt and its `@` attachments into tasks with dependencies and target files.
+2. **Work.** Every task whose dependencies are done starts at once, each specialist in its own thread with its own model.
+3. **Review.** Each result is checked and reviewed by the leader, who can send one specialist back with a precise instruction. Then the leader answers.
+:::
+
+- **Files stay consistent.** Reads never wait. Two writes to the same file wait in line; writes to different files run in parallel.
+- **Approvals.** `run-command` and `sign-pdf` ask inside the card of the agent that wants them; the others keep working.
+- **Mission Control** shows the phase, the task graph, one lane per specialist with its current tool and file, and tokens, cache hits and cost per role. **Stop all agents** and **Cancel** per worker are always there.
+- Open panels show a badge such as "WordCraft · writing" while an agent writes their file, then reload it.
+
+`@team`, `@leader` or `/team` run the whole team for one prompt. One specialist mentioned alone, such as `@word-agent shorten the summary in @report.docx`, works directly without planning.
+
 <!-- page: chat | AI | Chat and attachments | Mentions, slash commands, attachments, timeline and multi-step chains. -->
 
 - `@` mentions attach content: `@finances.xlsx`, `@sheets/`, `@wordcraft`, `@terminal`.
@@ -301,7 +449,14 @@ The sync compares both sides with the state of the last sync (three-way):
 | `/memory` | shows the project memory |
 | `/undo` | undoes the file changes of the last answer |
 | `/snapshot label` | takes a project snapshot |
+| `/team write the Q3 report and slides` | runs one prompt in [Team Mode](#team) |
+| `/roster` | opens the team configuration |
+| `/search term` | searches the messages of this chat |
 | `/clear`, `/new`, `/history`, `/export-chat`, `/model`, `/help` | chat housekeeping |
+
+## Chat views
+
+The chat docks left or right of the workspace, fills the window as **Full Chat Mode** (`Ctrl/Cmd Shift J`), or floats above a document as a picture-in-picture window. In desktop Chrome and Edge it can also pop out into its own always-on-top window. Switching views keeps a running answer and your draft.
 
 <!-- page: vision | AI | Vision and scanning | Images, screenshots and document scans in the chat, for models that read images. -->
 
@@ -417,6 +572,8 @@ OpenCraft is itself an MCP server at `http://localhost:5175/mcp` (Streamable HTT
 | `run-command` | terminal | shell command with approval |
 | `git-status`, `git-commit`, `git-log` | Git | version control |
 | `open-panel`, `panel-status` | workspace | panels in the browser |
+
+Add it to Claude Code with `claude mcp add --transport http opencraft http://localhost:5175/mcp`, or to any MCP client that speaks Streamable HTTP. Requests from other devices need the access token, like the REST API.
 
 <!-- page: api | Developers | REST API | The endpoints of the local backend. -->
 

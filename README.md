@@ -4,7 +4,7 @@
 
 OpenCraft IDE runs the open-source office engines **WordCraft**, **GridCraft**, **DeckCraft** and **PdfCraft** as WebAssembly panels side by side, next to a code editor, a real terminal, Git and an AI chat. The assistant drives all of them through the Model Context Protocol (MCP), so a request like "chart the Q3 numbers from the sheet on slide 3 and attach it to the contract" becomes a chain of tool calls you can watch, check and undo. Everything runs on your machine: the frontend in your browser, a small Node.js server bound to `127.0.0.1`, your files in a folder you own.
 
-Version **1.0.0**, licensed **MIT OR Apache-2.0**.
+Version **1.0.0**, licensed **MIT OR Apache-2.0**. Ships with WordCraft 0.9.0, GridCraft 0.9.0, DeckCraft 0.9.0 and PdfCraft 0.10.1.
 
 | | |
 | :--- | :--- |
@@ -13,35 +13,64 @@ Version **1.0.0**, licensed **MIT OR Apache-2.0**.
 | **Team Mode** | A Team Leader plans a task graph, specialist agents for sheets, documents, slides, PDFs and code work in parallel, the leader reviews each result. Writes to the same file wait in line, reads never do. Mission Control shows it all live. |
 | **Multi-provider AI** | Claude, ChatGPT, Gemini, DeepSeek, Ollama and any OpenAI-compatible endpoint, with native adapters, reasoning streams, prompt caching and exact token telemetry per model. Bring your own key, or stay fully local with Ollama. |
 | **iPadOS and Apple Pencil** | Touch, Apple Pencil (pressure and tilt), Magic Keyboard, Stage Manager. Pair the iPad with your desktop over the home network, or use the browser mode on the iPad alone. |
-| **100 % local, zero CDN** | Fonts come from npm, there are no third-party scripts, the server listens on `127.0.0.1` by default. Local-only mode blocks every cloud provider with one switch. |
+| **100 % local, zero CDN** | Fonts come from npm, icons are inline SVGs, the apps and their workers are served by your own machine, and there are no third-party scripts. The server listens on `127.0.0.1` by default. Local-only mode blocks every cloud provider with one switch. |
 
 ---
 
 ## Quick start
 
+You need **Node.js 20 or newer** and **Git**. `node-pty` is optional: with it the terminal is a full terminal; without it, each line runs as a command in PowerShell, cmd.exe or `/bin/sh`.
+
+### Windows, macOS and Linux
+
 ```sh
 git clone https://github.com/visoire/opencraft-ide.git
 cd opencraft-ide
 npm install
-npm run dev        # backend on :5176, Vite on :5175, open http://localhost:5175/ide/
+npm run dev
 ```
+
+Open `http://localhost:5175/ide/`. A sample project with a document, a spreadsheet, a presentation and a PDF opens with the four apps. Add a model under Settings, **AI models**: an API key, your own endpoint, or Ollama for fully local work.
+
+On Windows, PowerShell and Command Prompt both work, and the IDE's terminal panel lets you switch between them. On macOS and Linux the terminal uses your `$SHELL`.
 
 | Command | What it does |
 | :--- | :--- |
-| `npm run dev` | Backend (Hono) and Vite with hot reload. The IDE is at `http://localhost:5175/ide/`. |
-| `npm run dev:lan` | The same, shared with an iPad on your home network (pairing link in the output). |
+| `npm run dev` | Backend (Hono, port 5176) and Vite (port 5175) with hot reload. The IDE is at `http://localhost:5175/ide/`. |
+| `npm run dev:lan` | The same, shared with an iPad on your Wi-Fi (pairing link in the output). |
 | `npm run build` | Frontend, the four apps, the service worker list and the server into `dist/` and `dist-server/`. |
 | `npm start` | Production server from the build on `http://localhost:5175/ide/` (opens the browser). |
+| `npm run start:lan` | The production server, shared with an iPad on your Wi-Fi. |
 | `npm run typecheck` | Strict TypeScript for frontend and backend. |
 | `npm test` | Backend integration tests (files, projects, Git, terminal, AI routing, MCP, Team Mode, releases). |
 | `npm run test:e2e` | Playwright end to end with a mock model (see [Tests](#tests)). |
 | `npm run check:clean` | Blocks API keys, private files, database files and brand assets before a commit. |
 
-Requirements: Node.js 20 or newer and Git. `node-pty` is optional: with it the terminal is a full PTY, without it each line runs as a command in PowerShell, cmd.exe or `/bin/sh`.
+### iPadOS
+
+1. On your desktop, run `npm run dev:lan` (or `npm run build` and `npm run start:lan`).
+2. Open the pairing link it prints (`http://<your PC>:5175/pair?token=...`) once in Safari on the iPad.
+3. From then on, `http://<your PC>:5175/ide/` opens the IDE with your desktop projects. Share, **Add to Home Screen** makes it a full-screen app.
+
+Without a desktop, the IDE runs in browser mode with projects stored on the iPad. See the [iPadOS guide](docs/IPADOS-GUIDE.md).
+
+### Your data and API keys
 
 Your data lives in `~/OpenCraft` (on Windows `C:\Users\<name>\OpenCraft`, change it with `OPENCRAFT_HOME`): one folder per project, chats and history in `<project>/.opencraft/`, settings and API keys in `config.json`. Nothing of it is ever part of this repository.
 
+- **Desktop:** API keys are stored by the local server in `config.json` (mode `0600` on macOS and Linux), outside the reach of scripts in the page. The browser only sees a masked hint, and a key is only sent to the provider it belongs to.
+- **iPad in browser mode:** keys stay in memory until you reload. Keeping them in the browser's storage is an opt-in behind a clear warning.
+
 The user documentation opens from the IDE menu, or at `http://localhost:5175/docs/`.
+
+### Guides
+
+| Guide | Covers |
+| :--- | :--- |
+| [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | browser and server halves, channels, data on disk, key storage, zero CDN, security boundaries |
+| [docs/MCP-TOOLS.md](docs/MCP-TOOLS.md) | every tool with its arguments, approvals, using the tools from Claude Code or other clients, adding a tool |
+| [docs/AI-PROVIDERS.md](docs/AI-PROVIDERS.md) | Claude, ChatGPT, Gemini, DeepSeek, Ollama and custom endpoints, reasoning, caching, token counts, Team Mode |
+| [docs/IPADOS-GUIDE.md](docs/IPADOS-GUIDE.md) | pairing over Wi-Fi, browser mode, Apple Pencil, Magic Keyboard, Retina, limits |
 
 ---
 
@@ -93,6 +122,35 @@ The accents appear only on app marks. Surfaces are monochrome: warm light paper 
 
 ---
 
+## Keyboard shortcuts and chat operators
+
+`Ctrl` on Windows and Linux, `Cmd` on macOS and on an iPad with a Magic Keyboard.
+
+| Shortcut | Does |
+| :--- | :--- |
+| `Ctrl/Cmd+K` | command palette |
+| `Ctrl/Cmd+J` | show or hide the chat |
+| `Ctrl/Cmd+Shift+J` | Full Chat Mode |
+| `Ctrl/Cmd+Shift+P` | float the focused panel (picture in picture) |
+| `Ctrl/Cmd+Shift+K` | project search |
+| `Ctrl/Cmd+Shift+E` | project tree |
+| `Ctrl/Cmd+Shift+F` | focus mode |
+| `Ctrl/Cmd+Shift+Enter` | maximize the focused panel |
+| `Ctrl/Cmd+Shift+M` | minimize the focused panel to the dock |
+| `Alt+1` to `Alt+9` | jump to a panel |
+| `Alt+\` | AI completion at the cursor in the code editor (`Tab` accepts, `Escape` dismisses) |
+| `Enter` / `Shift+Enter` | send the chat message / new line |
+
+| Operator | Examples | Does |
+| :--- | :--- | :--- |
+| `@` file or folder | `@finances.xlsx`, `@sheets/` | attaches the content: sheets as Markdown tables, documents and PDFs as text, folder listings |
+| `@` app or panel | `@wordcraft`, `@gridcraft`, `@deckcraft`, `@pdfcraft`, `@terminal` | attaches the panel state and points the model at that app's tools |
+| `@` agent | `@team`, `@leader`, `@grid-agent`, `@word-agent`, `@deck-agent`, `@pdf-agent`, `@dev-agent` | runs Team Mode, or gives the prompt to one specialist |
+| `/` tool | `/read-sheet`, `/write-document`, `/create-slide`, `/sign-pdf` | forces an MCP tool; with complete arguments it runs without a model: `/read-sheet @finances.xlsx range=A1:E6` |
+| `/` command | `/clear`, `/new`, `/history`, `/export-chat`, `/search`, `/model`, `/persona`, `/remember`, `/memory`, `/undo`, `/snapshot`, `/find`, `/team`, `/roster`, `/help` | chat, memory, history and team commands |
+
+---
+
 ## Light and dark mode, language
 
 The IDE has its own light or dark choice, stored as `oc-ide-theme` (plus the cookie `oc_ide_theme`). The top bar, the chat history and Settings all change the same value, and the apps inside the panels switch in place, without a reload and without losing the open document. An app opened on its own (`/apps/<app>/`) and the docs page follow the separate website choice `oc-home-theme`.
@@ -123,6 +181,7 @@ Read [AGENTS.md](AGENTS.md) before you change anything; it is the full version o
 ```
 ide/index.html            IDE entry (the app lives under /ide/; index.html at the root forwards there)
 docs/index.html           user documentation page (src/docs/)
+docs/*.md                 guides: ARCHITECTURE, MCP-TOOLS, AI-PROVIDERS, IPADOS-GUIDE
 src/app/                  shell: main.ts (entry, top bar, rail, keys), settings.ts (prefs), theme-store.js,
                           i18n.ts + i18n-de.ts, select.ts (dropdown), ui.ts (dialogs, menus), palette.ts
 src/workspace/            layout.ts (window manager), registry.ts (tools), pip.ts, pencil.ts,

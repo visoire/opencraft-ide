@@ -964,7 +964,7 @@ body.pip-native > .panel { position: relative !important; inset: auto; flex: 1; 
 
 /* ======================================================================================
    Team Mode: mode switch, roster editor, Team Mission Control, agent badges on panels.
-   Atelier rules: .frame > .well with concentric radii (inner radius = outer minus padding),
+   Design rules: .frame > .well with concentric radii (inner radius = outer minus padding),
    DM Mono for data, one accent per role through --agent.
    ====================================================================================== */
 

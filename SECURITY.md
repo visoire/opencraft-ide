@@ -23,7 +23,8 @@ fast as one person can.
 - Requests from other origins are rejected (DNS rebinding and cross-site protection); the IDE pages
   and the apps get a strict Content Security Policy.
 - API keys stay in `~/OpenCraft/config.json` on your machine; the browser sees masked values only.
-  Local-only mode blocks every cloud provider.
+  In browser mode without a desktop, keys stay in memory until a reload, and keeping them in the
+  browser's storage is an opt-in behind a warning. Local-only mode blocks every cloud provider.
 - MCP tools that change things outside the project or run commands ask for approval; external MCP
   servers run in a sandbox with an approval rule.
 - No third-party scripts and no CDN.

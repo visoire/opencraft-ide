@@ -29,8 +29,10 @@ npm run dev                           # http://localhost:5175/ide/
 3. Interface strings go through `t()`; add the German entry to `src/app/i18n-de.ts`.
 4. Interface changes follow the design rules in AGENTS.md (light paper and dark carbon, accents only
    on app marks, DM Mono labels, 44 px touch targets). Attach light and dark screenshots.
-5. New MCP tools: schema in `src/mcp/schemas.ts`, implementation, a test, a line in the docs.
-6. Run the checks:
+5. New MCP tools: schema in `src/mcp/schemas.ts`, implementation, a test, and a line in
+   `src/docs/content.md` and [docs/MCP-TOOLS.md](docs/MCP-TOOLS.md).
+6. Behavior changes: update the README, `AGENTS.md` and the guide in `docs/` that covers it.
+7. Run the checks:
 
 ```sh
 npm run typecheck
@@ -40,7 +42,7 @@ npm run check:clean
 npm run build
 ```
 
-7. Open the pull request with the template filled in.
+8. Open the pull request with the template filled in.
 
 ## Commit messages
 

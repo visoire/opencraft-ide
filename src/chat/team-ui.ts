@@ -1,6 +1,6 @@
 // Team Mode interface: the roster editor (popover in the chat header, /roster modal, Settings tab) and
 // the Team Mission Control card of a team answer (leader bar, live task graph, parallel worker
-// swimlanes, per-role telemetry). Atelier style: .frame > .well with concentric radii, DM Mono for
+// swimlanes, per-role telemetry). Style: .frame > .well with concentric radii, DM Mono for
 // data, inline SVG icons from src/app/icons.js, one accent per role.
 
 import { h, esc, debounce, nodes } from '../app/util.js';

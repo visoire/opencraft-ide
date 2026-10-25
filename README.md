@@ -6,6 +6,8 @@ OpenCraft IDE runs the open-source office engines **WordCraft**, **GridCraft**, 
 
 Version **1.0.0**, licensed **MIT OR Apache-2.0**. Ships with WordCraft 0.9.0, GridCraft 0.9.0, DeckCraft 0.9.0 and PdfCraft 0.10.1.
 
+[![M8ven Score](https://m8ven.ai/badge/mcp/visoire/opencraft-ide)](https://m8ven.ai/mcp/visoire/opencraft-ide?s=readme)
+
 ![OpenCraft IDE Showcase 1](showcase1.png)
 ![OpenCraft IDE Showcase 2](showcase2.png)
 ![OpenCraft IDE Showcase 3](showcase3.png)
